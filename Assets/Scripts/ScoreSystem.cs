@@ -5,30 +5,11 @@ public class ScoreSystem : MonoBehaviour
 {
     [System.Serializable] public class OnScoreChangedEvent : UnityEvent<int> { }
 
-    public static ScoreSystem Singleton { get { return singleton; } }
-    private static ScoreSystem singleton = null;
-
     public int Score { get { return score; } }
     private int score;
 
     [SerializeField] private OnScoreChangedEvent onScoreChanged = new OnScoreChangedEvent();
-
-    void Awake() 
-    {
-        if(singleton != null) 
-        {
-            //Okay so IIRC this will only destroy this specific component.
-            //That's the intended functionality in case there are multiple
-            //management scripts on here that might need to stay.
-            //I might also be overthinking this, so lemme know.
-            Destroy(this);
-            return;
-        }
-
-        singleton = this;
-        DontDestroyOnLoad(this);
-    }
-
+    
     public void AddScore(int amount) 
     {
         //This assumes we don't ever want to take away player score.
