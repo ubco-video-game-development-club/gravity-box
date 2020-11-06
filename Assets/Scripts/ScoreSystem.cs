@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreSystem : MonoBehaviour
 {
     [System.Serializable] public class OnScoreChangedEvent : UnityEvent<int> { }
 
-    public static ScoreManager Singleton { get { return singleton; } }
-    private static ScoreManager singleton = null;
+    public static ScoreSystem Singleton { get { return singleton; } }
+    private static ScoreSystem singleton = null;
 
     public int Score { get { return score; } }
     private int score;
