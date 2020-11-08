@@ -12,7 +12,8 @@ public class RocketLauncher : MonoBehaviour
     private bool canFireRocket = true;
     private Vector2 mouseDir = Vector2.right;
 
-    private new Transform transform;
+    private new Transform transform; 
+    private YieldInstruction rocketCooldownInstruction;
 
     void Awake()
     {
@@ -20,6 +21,7 @@ public class RocketLauncher : MonoBehaviour
         CheckPlayer();
 
         transform = GetComponent<Transform>();
+        rocketCooldownInstruction = new WaitForSeconds(rocketCooldown);
     }
 
     void Update()
@@ -28,7 +30,7 @@ public class RocketLauncher : MonoBehaviour
         mouseDir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 
         // Fire rocket on click
-        if (Input.GetButton("Fire1") && canFireRocket)
+        if (Input.GetButton("Shoot") && canFireRocket)
         {
             // Start rocket cooldown
             StartCoroutine(RocketCooldown());
@@ -51,7 +53,7 @@ public class RocketLauncher : MonoBehaviour
     private IEnumerator RocketCooldown()
     {
         canFireRocket = false;
-        yield return new WaitForSeconds(rocketCooldown);
+        yield return rocketCooldownInstruction;
         canFireRocket = true;
     }
 

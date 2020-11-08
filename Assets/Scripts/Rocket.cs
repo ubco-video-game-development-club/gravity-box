@@ -40,15 +40,13 @@ public class Rocket : MonoBehaviour
         Collider2D[] targets = Physics2D.OverlapCircleAll(explosionPos, explosionRadius);
         foreach (Collider2D target in targets)
         {
-            Debug.Log(target.name);
-
             Rigidbody2D targetBody;
             if (target.TryGetComponent<Rigidbody2D>(out targetBody))
             {
                 Vector2 forceOffset = targetBody.transform.position - explosionPos;
                 Vector2 forceDir = forceOffset.normalized;
                 float forceDist = forceOffset.magnitude;
-                float forceScale = 1 - (forceDist / explosionRadius);
+                float forceScale = 1 - Mathf.Clamp(forceDist / explosionRadius, 0f, 1f);
                 targetBody.AddForce(forceScale * forceDir * explosionStrength, ForceMode2D.Impulse);
             }
         }
