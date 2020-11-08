@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Rocket
+  - Player
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 2172839253
+    locked: 0
+  - name: Projectile
+    uniqueID: 4041694499
     locked: 0
   - name: Default
     uniqueID: 0
