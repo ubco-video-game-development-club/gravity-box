@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RocketLauncher : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class RocketLauncher : MonoBehaviour
     [SerializeField] private Rocket rocketPrefab;
     [SerializeField] private float rocketCooldown = 0.5f;
     [SerializeField] private float recoilStrength = 1;
+    [SerializeField] private UnityEvent onShoot = new UnityEvent();
 
     private bool canFireRocket = true;
     private Vector2 mouseDir = Vector2.right;
@@ -41,6 +43,9 @@ public class RocketLauncher : MonoBehaviour
 
             // Apply recoil force to player
             playerBody.AddForce(recoilStrength * -mouseDir, ForceMode2D.Impulse);
+
+            // Invoke onShoot event
+            onShoot.Invoke();
         }
     }
 
