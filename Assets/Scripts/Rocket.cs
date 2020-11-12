@@ -8,6 +8,7 @@ public class Rocket : MonoBehaviour
     [SerializeField] private float speed = 1;
     [SerializeField] private float explosionStrength = 1;
     [SerializeField] private float explosionRadius = 1;
+    [SerializeField] private float baseDamage = 10.0f;
 
     public Vector2 Direction
     {
@@ -48,6 +49,13 @@ public class Rocket : MonoBehaviour
                 float forceDist = forceOffset.magnitude;
                 float forceScale = 1 - Mathf.Clamp(forceDist / explosionRadius, 0f, 1f);
                 targetBody.AddForce(forceScale * forceDir * explosionStrength, ForceMode2D.Impulse);
+            }
+
+            if(target.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                float distance = Vector2.Distance(enemy.transform.position, this.transform.position);
+                float damage = baseDamage / (1.0f + distance);
+                enemy.TakeDamage(damage);
             }
         }
 
