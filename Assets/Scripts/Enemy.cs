@@ -12,6 +12,11 @@ public class Enemy : MonoBehaviour
 
     private float currentHealth;
 
+    void Awake()
+    {
+        currentHealth = maxHealth;
+    }
+
     void Update() 
     {
         if (currentHealth <= 0.0f)
