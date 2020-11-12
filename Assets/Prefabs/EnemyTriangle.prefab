@@ -155,3 +155,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   launchForce: 3
+  constantVelocity: 10
+  damage: 1
+  deathParticles: {fileID: 6402659540425694070, guid: 78c1fb16e74ccac4db15ac624294823b, type: 3}

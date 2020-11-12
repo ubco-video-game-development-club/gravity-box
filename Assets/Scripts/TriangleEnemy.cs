@@ -8,11 +8,13 @@ public class TriangleEnemy : Enemy
     [SerializeField] private float launchForce = 5.0f;
     [SerializeField] private float constantVelocity = 10.0f;
     [SerializeField] private int damage = 1;
+    [SerializeField] private GameObject deathParticles;
     private Rigidbody2D rig;
 
     void Awake()
     {
         rig = GetComponent<Rigidbody2D>();
+        this.AddOnDieListener(OnDie);
     }
 
     void Start()
@@ -38,7 +40,13 @@ public class TriangleEnemy : Enemy
     {
         if(col.transform.TryGetComponent<Player>(out Player player))
         {
-            player.TakeDamage(1);
+            player.TakeDamage(damage);
         }
     }
+
+    public void OnDie()
+    {
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
+    }
+
 }

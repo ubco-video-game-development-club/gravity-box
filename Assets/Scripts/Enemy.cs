@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public float Health { get { return currentHealth; } }
 
     [SerializeField] private float maxHealth = 10.0f;
-    [SerializeField] private UnityEvent onDie;
+    [SerializeField] private UnityEvent onDie = new UnityEvent();
 
     private float currentHealth;
 
