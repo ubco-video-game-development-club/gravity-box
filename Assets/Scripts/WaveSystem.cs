@@ -23,7 +23,7 @@ public class WaveSystem : MonoBehaviour
 
     private YieldInstruction spawnInstruction;
 
-    void Start()
+    void Awake()
     {
         spawnInterval = baseSpawnInterval;
         rawSpawnCount = baseSpawnCount;
@@ -54,6 +54,8 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
+        yield return spawnInstruction;
+
         for (int i = 0; i < rawSpawnCount; i++)
         {
             foreach (Transform spawnPoint in spawnPoints)
