@@ -55,7 +55,6 @@ public class Rocket : MonoBehaviour
             {
                 float distance = Vector2.Distance(enemy.transform.position, this.transform.position);
                 float damage = baseDamage / (1.0f + distance);
-                Debug.Log(damage);
                 enemy.TakeDamage(damage);
             }
         }
