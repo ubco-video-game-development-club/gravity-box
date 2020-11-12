@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static ScoreSystem ScoreSystem { get { return scoreSystem; } }
     private static ScoreSystem scoreSystem;
+    public static WaveSystem WaveSystem { get { return waveSystem; } }
+    private static WaveSystem waveSystem;
 
     private static GameManager singleton;
 
@@ -25,5 +27,6 @@ public class GameManager : MonoBehaviour
 
         //Initialize systems
         scoreSystem = GetComponent<ScoreSystem>();
+        waveSystem = GetComponent<WaveSystem>();
     }
 }

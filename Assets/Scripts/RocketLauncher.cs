@@ -66,7 +66,7 @@ public class RocketLauncher : MonoBehaviour
     {
         if (playerBody == null)
         {
-            Debug.Log("Warning: Player reference not assigned to Rocket Launcher. Defaulting to root GameObject.");
+            Debug.LogWarning("Player reference not assigned to Rocket Launcher. Defaulting to root GameObject.");
             Rigidbody2D rootRB2D;
             if (transform.root.TryGetComponent<Rigidbody2D>(out rootRB2D))
             {
@@ -74,7 +74,7 @@ public class RocketLauncher : MonoBehaviour
             }
             else
             {
-                Debug.Log("Error: Failed to find valid root GameObject. Make sure the rocket launcher is a child of the player, and that the player has a Rigidbody2D component.");
+                Debug.LogError("Failed to find valid root GameObject. Make sure the rocket launcher is a child of the player, and that the player has a Rigidbody2D component.");
             }
         }
     }

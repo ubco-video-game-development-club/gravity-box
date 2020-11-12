@@ -11,8 +11,9 @@ public class TriangleEnemy : Enemy
     [SerializeField] private GameObject deathParticles;
     private Rigidbody2D rig;
 
-    void Awake()
+    new protected void Awake()
     {
+        base.Awake();
         rig = GetComponent<Rigidbody2D>();
         this.AddOnDieListener(OnDie);
     }
