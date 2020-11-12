@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private TMPro.TextMeshProUGUI highscoreText;
+    [SerializeField] private string playScene = "Scenes/Game";
 
     void Start()
     {
@@ -17,6 +18,6 @@ public class MainMenuManager : MonoBehaviour
     public void OnPlayButtonClicked()
     {
         //TODO: Load the scene in a more elegant way (?)
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(playScene);
     }
 }
