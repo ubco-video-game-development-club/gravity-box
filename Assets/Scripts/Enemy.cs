@@ -17,8 +17,11 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    void Update() 
+    public void TakeDamage(float damage)
     {
+        if(damage < 0f) return; //Can't to negative damage
+        currentHealth -= damage;
+
         if (currentHealth <= 0.0f)
         {
             onDie.Invoke();
