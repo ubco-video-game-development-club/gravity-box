@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private Text highscoreText;
+    [SerializeField] private TMPro.TextMeshProUGUI highscoreText;
 
     void Start()
     {
