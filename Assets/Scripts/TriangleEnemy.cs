@@ -7,6 +7,7 @@ public class TriangleEnemy : Enemy
 {
     [SerializeField] private float launchForce = 5.0f;
     [SerializeField] private float constantVelocity = 10.0f;
+    [SerializeField] private int damage = 1;
     private Rigidbody2D rig;
 
     void Awake()
@@ -31,5 +32,13 @@ public class TriangleEnemy : Enemy
     {
         Vector2 direction = rig.velocity.normalized;
         rig.velocity = direction * constantVelocity;
+    }
+    
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.transform.TryGetComponent<Player>(out Player player))
+        {
+            player.TakeDamage(1);
+        }
     }
 }
