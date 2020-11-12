@@ -6,6 +6,13 @@ using UnityEngine;
 public class TriangleEnemy : Enemy
 {
     [SerializeField] private float launchForce = 5.0f;
+    [SerializeField] private float constantVelocity = 10.0f;
+    private Rigidbody2D rig;
+
+    void Awake()
+    {
+        rig = GetComponent<Rigidbody2D>();
+    }
 
     void Start()
     {
@@ -17,6 +24,12 @@ public class TriangleEnemy : Enemy
         }
 
         Vector2 toPlayer = (player.transform.position - this.transform.position).normalized;
-        GetComponent<Rigidbody2D>().AddForce(toPlayer * launchForce, ForceMode2D.Impulse);
+       rig.AddForce(toPlayer * launchForce, ForceMode2D.Impulse);
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 direction = rig.velocity.normalized;
+        rig.velocity = direction * constantVelocity;
     }
 }
