@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class WaveTimerDisplay : MonoBehaviour
 {
-    private TextMeshProUGUI textGUI;
+    private TextMeshProUGUI textMeshProUGUI;
 
     void Awake()
     {
-        textGUI = GetComponent<TextMeshProUGUI>();
+        textMeshProUGUI = GetComponent<TextMeshProUGUI>();
     }
 
     void Start()
@@ -20,6 +19,6 @@ public class WaveTimerDisplay : MonoBehaviour
 
     public void UpdateWaveTimer(int time)
     {
-        textGUI.text = time.ToString();
+        textMeshProUGUI.text = time.ToString();
     }
 }

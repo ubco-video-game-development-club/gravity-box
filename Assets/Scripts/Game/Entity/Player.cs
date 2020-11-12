@@ -8,7 +8,9 @@ public class Player : MonoBehaviour
     [System.Serializable] public class OnHealthChangedEvent : UnityEvent<int> { }
     [System.Serializable] public class OnDeathEvent : UnityEvent { }
 
+    public int MaxHealth { get { return maxHealth; } }
     [SerializeField] private int maxHealth = 5;
+
     [SerializeField] private float invincibilityFrame = 0.5f;
     [SerializeField] private OnHealthChangedEvent onHealthChanged;
     [SerializeField] private OnDeathEvent onDeath;
