@@ -10,8 +10,9 @@ public class TriangleEnemy : Enemy
     [SerializeField] private int damage = 1;
     private Rigidbody2D rig;
 
-    void Awake()
+    new protected void Awake()
     {
+        base.Awake();
         rig = GetComponent<Rigidbody2D>();
     }
 

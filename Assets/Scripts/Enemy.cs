@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
 
     private float currentHealth;
 
-    void Awake()
+    protected void Awake()
     {
         currentHealth = maxHealth;
     }
