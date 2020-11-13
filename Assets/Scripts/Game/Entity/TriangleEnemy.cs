@@ -28,13 +28,14 @@ public class TriangleEnemy : Enemy
         }
 
         Vector2 toPlayer = (player.transform.position - this.transform.position).normalized;
-       rig.AddForce(toPlayer * launchForce, ForceMode2D.Impulse);
+        rig.AddForce(toPlayer * launchForce, ForceMode2D.Impulse);
     }
 
     void FixedUpdate()
     {
         Vector2 direction = rig.velocity.normalized;
         rig.velocity = direction * constantVelocity;
+        transform.rotation = Quaternion.FromToRotation(Vector2.up, direction);
     }
     
     void OnCollisionEnter2D(Collision2D col)
