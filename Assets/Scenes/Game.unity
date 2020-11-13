@@ -455,7 +455,7 @@ MonoBehaviour:
   - {fileID: 428600032}
   - {fileID: 897856906}
   - {fileID: 2035843430}
-  enemyPrefab: {fileID: 5434578293930942764, guid: c8b65d39740b8c04fb52613f12308ff2, type: 3}
+  enemyPrefab: {fileID: 775320830027528938, guid: c8b65d39740b8c04fb52613f12308ff2, type: 3}
   baseSpawnInterval: 2
   spawnIntervalDecrement: 0.05
   baseSpawnCount: 1.5

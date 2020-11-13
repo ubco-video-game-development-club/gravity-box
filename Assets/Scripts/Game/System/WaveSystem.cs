@@ -8,7 +8,7 @@ public class WaveSystem : MonoBehaviour
     [System.Serializable] public class OnTimerChangedEvent : UnityEvent<int> { }
 
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private float baseSpawnInterval = 2f;
     [SerializeField] private float spawnIntervalDecrement = 0.05f;
     [SerializeField] private float baseSpawnCount = 1.5f;
@@ -28,13 +28,16 @@ public class WaveSystem : MonoBehaviour
             {
                 StartCoroutine(SpawnWave());
                 _waveTimer = maxWaveDuration;
-                enemiesRemaining = spawnCount;
+                enemiesRemaining += 4 * spawnCount;
             }
 
             onTimerChanged.Invoke(_waveTimer);
 
-            StopCoroutine(TickWaveTimer());
-            StartCoroutine(TickWaveTimer());
+            if (tickCoroutine != null)
+            {
+                StopCoroutine(tickCoroutine);
+            }
+            tickCoroutine = StartCoroutine(TickWaveTimer());
         }
     }
     private int _waveTimer;
@@ -46,6 +49,7 @@ public class WaveSystem : MonoBehaviour
 
     private YieldInstruction spawnInstruction;
     private YieldInstruction tickInstruction;
+    private Coroutine tickCoroutine;
 
     void Awake()
     {
@@ -80,11 +84,12 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
-        for (int i = 0; i < rawSpawnCount; i++)
+        for (int i = 0; i < spawnCount; i++)
         {
             foreach (Transform spawnPoint in spawnPoints)
             {
-                Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+                Enemy enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+                enemy.AddOnDieListener(RemoveEnemy);
             }
 
             yield return spawnInstruction;
