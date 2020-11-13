@@ -15,6 +15,7 @@ public class WaveTimerDisplay : MonoBehaviour
     void Start()
     {
         GameManager.WaveSystem.AddTimerChangedListener(UpdateWaveTimer);
+        UpdateWaveTimer(GameManager.WaveSystem.WaveTimer);
     }
 
     public void UpdateWaveTimer(int time)

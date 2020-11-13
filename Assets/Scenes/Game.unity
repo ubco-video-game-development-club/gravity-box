@@ -456,10 +456,10 @@ MonoBehaviour:
   - {fileID: 897856906}
   - {fileID: 2035843430}
   enemyPrefab: {fileID: 775320830027528938, guid: c8b65d39740b8c04fb52613f12308ff2, type: 3}
-  baseSpawnInterval: 2
-  spawnIntervalDecrement: 0.05
+  baseSpawnInterval: 5
+  spawnIntervalDecrement: 0.25
   baseSpawnCount: 1.5
-  spawnCountIncrement: 0.5
+  spawnCountIncrement: 0.25
   maxWaveDuration: 30
   startDelay: 3
   waveCutoffDuration: 3
