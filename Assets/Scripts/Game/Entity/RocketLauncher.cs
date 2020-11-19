@@ -32,7 +32,7 @@ public class RocketLauncher : MonoBehaviour
         mouseDir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
 
         // Fire rocket on click
-        if (Input.GetButton("Shoot") && canFireRocket)
+        if (Input.GetButton("Shoot") && canFireRocket && !PauseMenu.Singleton.IsPaused)
         {
             // Start rocket cooldown
             StartCoroutine(RocketCooldown());
