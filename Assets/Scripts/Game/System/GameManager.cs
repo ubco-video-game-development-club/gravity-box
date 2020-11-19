@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
 
         //Initialize singleton
         singleton = this;
-        DontDestroyOnLoad(gameObject);
 
         //Initialize systems
         scoreSystem = GetComponent<ScoreSystem>();

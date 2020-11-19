@@ -32,7 +32,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isInvincible)
+        //If invincible or dead, don't take damage
+        if (isInvincible || currentHealth <= 0)
         {
             return;
         }
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            enabled = false;
             onDeath.Invoke();
         }
 

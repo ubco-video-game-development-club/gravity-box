@@ -15,7 +15,7 @@ public class TriangleEnemy : Enemy
     {
         base.Awake();
         rig = GetComponent<Rigidbody2D>();
-        this.AddOnDieListener(OnDie);
+        this.AddOnDeathListener(OnDeath);
     }
 
     void Start()
@@ -46,7 +46,7 @@ public class TriangleEnemy : Enemy
         }
     }
 
-    public void OnDie()
+    public void OnDeath()
     {
         Instantiate(deathParticles, transform.position, Quaternion.identity);
     }

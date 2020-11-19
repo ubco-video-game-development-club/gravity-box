@@ -10,7 +10,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float maxHealth = 10.0f;
     [SerializeField] private HealthBar healthBarPrefab;
     [SerializeField] private float healthBarYOffset = -0.5f;
-    [SerializeField] private UnityEvent onDie = new UnityEvent();
+    [SerializeField] private int pointsValue = 75;
+    [SerializeField] private UnityEvent onDeath = new UnityEvent();
 
     private float currentHealth;
 
@@ -31,19 +32,20 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0.0f)
         {
-            onDie.Invoke();
+            GameManager.ScoreSystem.AddScore(pointsValue);
+            onDeath.Invoke();
             Destroy(gameObject);
         }
     }
 
-    public void AddOnDieListener(UnityAction listener)
+    public void AddOnDeathListener(UnityAction listener)
     {
-        onDie.AddListener(listener);
+        onDeath.AddListener(listener);
     }
 
-    public void RemoveOnDieListener(UnityAction listener)
+    public void RemoveOnDeathListener(UnityAction listener)
     {
-        onDie.RemoveListener(listener);
+        onDeath.RemoveListener(listener);
     }
 
 }
