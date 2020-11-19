@@ -12,8 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] private int maxHealth = 5;
 
     [SerializeField] private float invincibilityFrame = 0.5f;
+    [SerializeField] private int numFlickers = 15;
     [SerializeField] private OnHealthChangedEvent onHealthChanged = new OnHealthChangedEvent();
     [SerializeField] private OnDeathEvent onDeath = new OnDeathEvent();
+    [SerializeField] private SpriteRenderer[] flickerRenderers;
 
     private int currentHealth = 0;
     private bool isInvincible = false;
@@ -24,7 +26,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        invincibilityFrameInstruction = new WaitForSeconds(invincibilityFrame);
+        invincibilityFrameInstruction = new WaitForSeconds(invincibilityFrame / (float)numFlickers);
         currentHealth = maxHealth;
     }
 
@@ -49,8 +51,25 @@ public class Player : MonoBehaviour
     private IEnumerator InvincibilityFrame()
     {
         isInvincible = true;
-        yield return invincibilityFrameInstruction;
+
+        for(int i = 0; i < numFlickers; i++)
+        {
+            yield return invincibilityFrameInstruction;
+            foreach(SpriteRenderer r in flickerRenderers)
+            {
+                r.enabled = !r.enabled;
+            }
+        }
+
         isInvincible = false;
+
+        //This is to ensure that the renderer is always enabled at the end of this function
+        //The wait time is so the flicker won't look weird
+        yield return invincibilityFrameInstruction;
+        foreach(SpriteRenderer r in flickerRenderers)
+        {
+                r.enabled = true;
+        }
     }
 
     public void ApplyKnockback(Vector2 knockbackForce)

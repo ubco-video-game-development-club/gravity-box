@@ -2750,6 +2750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   invincibilityFrame: 0.5
+  numFlickers: 15
   onHealthChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2780,6 +2781,9 @@ MonoBehaviour:
           m_StringArgument: Death
           m_BoolArgument: 0
         m_CallState: 2
+  flickerRenderers:
+  - {fileID: 1244791583}
+  - {fileID: 1330348400}
 --- !u!82 &1244791588
 AudioSource:
   m_ObjectHideFlags: 0
