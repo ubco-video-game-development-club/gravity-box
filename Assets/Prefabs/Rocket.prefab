@@ -148,3 +148,5 @@ MonoBehaviour:
   speed: 12
   explosionStrength: 12
   explosionRadius: 3
+  minDamage: 1
+  maxDamage: 10
