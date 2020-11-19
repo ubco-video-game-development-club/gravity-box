@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class WaveSystem : MonoBehaviour
 {
     [System.Serializable] public class OnTimerChangedEvent : UnityEvent<int> { }
+    [System.Serializable] public class OnWaveCountChangedEvent : UnityEvent<int> { }
 
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Enemy enemyPrefab;
@@ -18,6 +19,7 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private int startDelay = 3;
     [SerializeField] private int waveCutoffDuration = 3;
     [SerializeField] private OnTimerChangedEvent onTimerChanged = new OnTimerChangedEvent();
+    [SerializeField] private OnWaveCountChangedEvent onWaveCountChanged = new OnWaveCountChangedEvent();
     private AudioSource audioSource;
 
     public int WaveTimer
@@ -30,7 +32,6 @@ public class WaveSystem : MonoBehaviour
             {
                 StartCoroutine(SpawnWave());
                 _waveTimer = maxWaveDuration;
-                enemiesRemaining += 4 * spawnCount;
             }
 
             onTimerChanged.Invoke(_waveTimer);
@@ -43,6 +44,18 @@ public class WaveSystem : MonoBehaviour
         }
     }
     private int _waveTimer;
+
+    public int WaveCount
+    {
+        get { return _waveCount; }
+        set
+        {
+            _waveCount = value;
+            Debug.Log(_waveCount);
+            onWaveCountChanged.Invoke(_waveCount);
+        }
+    }
+    private int _waveCount;
 
     private float spawnInterval = 0;
     private int spawnCount = 0;
@@ -66,6 +79,7 @@ public class WaveSystem : MonoBehaviour
 
     void Start()
     {
+        WaveCount = 0;
         WaveTimer = startDelay;
     }
 
@@ -93,6 +107,9 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator SpawnWave()
     {
+        WaveCount++;
+        enemiesRemaining += 4 * spawnCount;
+
         for (int i = 0; i < spawnCount; i++)
         {
             foreach (Transform spawnPoint in spawnPoints)
@@ -126,5 +143,15 @@ public class WaveSystem : MonoBehaviour
     public void RemoveTimerChangedListener(UnityAction<int> call) 
     {
         onTimerChanged.RemoveListener(call);
+    }
+
+    public void AddWaveCountChangedListener(UnityAction<int> call) 
+    {
+        onWaveCountChanged.AddListener(call);
+    }
+
+    public void RemoveWWaveCountChangedListener(UnityAction<int> call) 
+    {
+        onWaveCountChanged.RemoveListener(call);
     }
 }
