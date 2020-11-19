@@ -17,7 +17,11 @@ public class Enemy : MonoBehaviour
     protected void Awake()
     {
         currentHealth = maxHealth;
-        HealthBar healthBar = Instantiate(healthBarPrefab, transform.position + Vector3.up * healthBarYOffset, Quaternion.identity);
+
+        // Initialize health bar
+        Vector3 healthBarSpawn = transform.position + Vector3.up * healthBarYOffset;
+        HealthBar healthBar = Instantiate(healthBarPrefab, healthBarSpawn, Quaternion.identity, HUD.Singleton.HealthBarParent);
+        
     }
 
     public void TakeDamage(float damage)
