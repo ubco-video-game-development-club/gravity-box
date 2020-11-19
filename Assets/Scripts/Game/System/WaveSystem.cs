@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AudioSource))]
 public class WaveSystem : MonoBehaviour
 {
     [System.Serializable] public class OnTimerChangedEvent : UnityEvent<int> { }
@@ -17,6 +18,7 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private int startDelay = 3;
     [SerializeField] private int waveCutoffDuration = 3;
     [SerializeField] private OnTimerChangedEvent onTimerChanged;
+    private AudioSource audioSource;
 
     public int WaveTimer
     {
@@ -60,6 +62,8 @@ public class WaveSystem : MonoBehaviour
         spawnInstruction = new WaitForSeconds(spawnInterval);
         spawnCount = Mathf.FloorToInt(rawSpawnCount);
         tickInstruction = new WaitForSeconds(1);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -78,6 +82,13 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator TickWaveTimer()
     {
+        //If there's 3 seconds or less on the clock,
+        if(WaveTimer <= 3)
+        {
+            //Play the countdown sound
+            audioSource.Play();
+        }
+
         yield return new WaitForSeconds(1);
         WaveTimer--;
     }
