@@ -17,7 +17,7 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private int maxWaveDuration = 30;
     [SerializeField] private int startDelay = 3;
     [SerializeField] private int waveCutoffDuration = 3;
-    [SerializeField] private OnTimerChangedEvent onTimerChanged;
+    [SerializeField] private OnTimerChangedEvent onTimerChanged = new OnTimerChangedEvent();
     private AudioSource audioSource;
 
     public int WaveTimer
@@ -55,8 +55,6 @@ public class WaveSystem : MonoBehaviour
 
     void Awake()
     {
-        onTimerChanged = new OnTimerChangedEvent();
-
         spawnInterval = baseSpawnInterval;
         rawSpawnCount = baseSpawnCount;
         spawnInstruction = new WaitForSeconds(spawnInterval);
