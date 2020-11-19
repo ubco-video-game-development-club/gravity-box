@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int maxHealth = 5;
 
     [SerializeField] private float invincibilityFrame = 0.5f;
-    [SerializeField] private OnHealthChangedEvent onHealthChanged;
-    [SerializeField] private OnDeathEvent onDeath;
+    [SerializeField] private OnHealthChangedEvent onHealthChanged = new OnHealthChangedEvent();
+    [SerializeField] private OnDeathEvent onDeath = new OnDeathEvent();
 
     private int currentHealth = 0;
     private bool isInvincible = false;
@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        onHealthChanged = new OnHealthChangedEvent();
         rigidbody2D = GetComponent<Rigidbody2D>();
         invincibilityFrameInstruction = new WaitForSeconds(invincibilityFrame);
         currentHealth = maxHealth;
