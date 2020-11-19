@@ -51,7 +51,6 @@ public class WaveSystem : MonoBehaviour
         set
         {
             _waveCount = value;
-            Debug.Log(_waveCount);
             onWaveCountChanged.Invoke(_waveCount);
         }
     }
