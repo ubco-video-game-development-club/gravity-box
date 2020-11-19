@@ -15,7 +15,7 @@ public class TriangleEnemy : Enemy
     {
         base.Awake();
         rig = GetComponent<Rigidbody2D>();
-        this.AddOnDeathListener(OnDeath);
+        this.AddDeathListener(OnDeath);
     }
 
     void Start()
@@ -31,8 +31,9 @@ public class TriangleEnemy : Enemy
         rig.AddForce(toPlayer * launchForce, ForceMode2D.Impulse);
     }
 
-    void FixedUpdate()
+    new protected void FixedUpdate()
     {
+        base.FixedUpdate();
         Vector2 direction = rig.velocity.normalized;
         rig.velocity = direction * constantVelocity;
         transform.rotation = Quaternion.FromToRotation(Vector2.up, direction);

@@ -151,7 +151,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  onDie:
+  healthBarPrefab: {fileID: 8190478330428777995, guid: c7da2674b6b7d40498e4b9a0ed44877d, type: 3}
+  healthBarYOffset: -0.7
+  pointsValue: 75
+  onHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
     m_PersistentCalls:
       m_Calls: []
   launchForce: 3

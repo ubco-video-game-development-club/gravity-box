@@ -114,7 +114,7 @@ public class WaveSystem : MonoBehaviour
             foreach (Transform spawnPoint in spawnPoints)
             {
                 Enemy enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-                enemy.AddOnDeathListener(RemoveEnemy);
+                enemy.AddDeathListener(RemoveEnemy);
             }
 
             yield return spawnInstruction;
