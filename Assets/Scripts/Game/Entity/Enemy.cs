@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public float Health { get { return currentHealth; } }
 
     [SerializeField] private float maxHealth = 10.0f;
+    [SerializeField] private HealthBar healthBarPrefab;
+    [SerializeField] private float healthBarYOffset = -0.5f;
     [SerializeField] private UnityEvent onDie = new UnityEvent();
 
     private float currentHealth;
@@ -15,6 +17,7 @@ public class Enemy : MonoBehaviour
     protected void Awake()
     {
         currentHealth = maxHealth;
+        HealthBar healthBar = Instantiate(healthBarPrefab, transform.position + Vector3.up * healthBarYOffset, Quaternion.identity);
     }
 
     public void TakeDamage(float damage)
