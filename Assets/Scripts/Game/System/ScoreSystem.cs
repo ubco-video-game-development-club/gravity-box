@@ -3,13 +3,21 @@ using UnityEngine.Events;
 
 public class ScoreSystem : MonoBehaviour
 {
+    public const string HIGH_SCORE_PREF = "player.highscore";
+
     [System.Serializable] public class OnScoreChangedEvent : UnityEvent<int> { }
 
     public int Score { get { return score; } }
     private int score;
+    private int highScore;
 
     [SerializeField] private OnScoreChangedEvent onScoreChanged = new OnScoreChangedEvent();
     
+    void Awake()
+    {
+        highScore = PlayerPrefs.GetInt(HIGH_SCORE_PREF);
+    }
+
     public void AddScore(int amount) 
     {
         //This assumes we don't ever want to take away player score.
@@ -20,6 +28,13 @@ public class ScoreSystem : MonoBehaviour
         }
 
         score += amount;
+
+        if(score > highScore)
+        {
+            PlayerPrefs.SetInt(HIGH_SCORE_PREF, score);
+            highScore = score;
+        }
+
         onScoreChanged.Invoke(score);
     }
 
