@@ -12,7 +12,8 @@ public class ScoreSystem : MonoBehaviour
     private int highScore;
 
     [SerializeField] private OnScoreChangedEvent onScoreChanged = new OnScoreChangedEvent();
-    
+    [SerializeField] private UnityEvent onNewHighscore = new UnityEvent();
+
     void Awake()
     {
         highScore = PlayerPrefs.GetInt(HIGH_SCORE_PREF);
@@ -22,7 +23,8 @@ public class ScoreSystem : MonoBehaviour
     {
         //This assumes we don't ever want to take away player score.
         //If we do, just change this accordingly.
-        if(amount < 0) {
+        if(amount < 0) 
+        {
             Debug.LogError("Cannot add negative score.");
             return;
         }
@@ -33,6 +35,7 @@ public class ScoreSystem : MonoBehaviour
         {
             PlayerPrefs.SetInt(HIGH_SCORE_PREF, score);
             highScore = score;
+            onNewHighscore.Invoke();
         }
 
         onScoreChanged.Invoke(score);
