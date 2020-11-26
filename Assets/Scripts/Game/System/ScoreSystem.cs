@@ -10,6 +10,7 @@ public class ScoreSystem : MonoBehaviour
     public int Score { get { return score; } }
     private int score;
     private int highScore;
+    private bool achievedHighScore = false;
 
     [SerializeField] private OnScoreChangedEvent onScoreChanged = new OnScoreChangedEvent();
     [SerializeField] private UnityEvent onNewHighscore = new UnityEvent();
@@ -33,9 +34,11 @@ public class ScoreSystem : MonoBehaviour
 
         if(score > highScore)
         {
+            if (!achievedHighScore) onNewHighscore.Invoke();
+            
+            achievedHighScore = true;
             PlayerPrefs.SetInt(HIGH_SCORE_PREF, score);
             highScore = score;
-            onNewHighscore.Invoke();
         }
 
         onScoreChanged.Invoke(score);
