@@ -916,6 +916,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 738095025}
+--- !u!114 &1134945848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1134945848, guid: d7db0327941107c4690e915f9c0fc580, type: 3}
+  m_PrefabInstance: {fileID: 1409733278008058134}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1167577669
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +977,7 @@ MonoBehaviour:
   musicVolumeSlider: {fileID: 866489941}
   sfxVolumeSlider: {fileID: 850771796}
   uiVolumeSlider: {fileID: 1273322778}
+  leaderboardNameInput: {fileID: 1134945848}
 --- !u!1 &1222921112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1906,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1989956384}
     m_Modifications:
+    - target: {fileID: 1134945848, guid: d7db0327941107c4690e915f9c0fc580, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1167577671}
     - target: {fileID: 1409733276543554849, guid: d7db0327941107c4690e915f9c0fc580, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2006,8 +2022,7 @@ PrefabInstance:
       propertyPath: source
       value: 
       objectReference: {fileID: 1989956385}
-    m_RemovedComponents:
-    - {fileID: 1409733277502622623, guid: d7db0327941107c4690e915f9c0fc580, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7db0327941107c4690e915f9c0fc580, type: 3}
 --- !u!1001 &6423991895945296060
 PrefabInstance:

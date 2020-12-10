@@ -17,6 +17,8 @@ public class MainMenuManager : MonoBehaviour
         SFX_MIX_VOL = "SFXVolume",
         UI_MIX_VOL = "UIVolume";
 
+    private const string LEADERBOARD_NAME_PREF = "player.username";
+
     [SerializeField] private TMPro.TextMeshProUGUI highscoreText;
     [SerializeField] private string playScene = "Scenes/Game";
     [SerializeField] private AudioMixer masterMixer;
@@ -24,6 +26,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] private Slider uiVolumeSlider;
+    [SerializeField] private TMPro.TMP_InputField leaderboardNameInput;
 
     void Start()
     {
@@ -31,6 +34,7 @@ public class MainMenuManager : MonoBehaviour
         highscoreText.text = $"High Score: {highScore}";
 
         SetVolumeSliders();
+        leaderboardNameInput.text = PlayerPrefs.GetString(LEADERBOARD_NAME_PREF);
     }
 
     public void OnPlayButtonClicked()
@@ -61,6 +65,12 @@ public class MainMenuManager : MonoBehaviour
     {
         masterMixer.SetFloat(UI_MIX_VOL, value);
         PlayerPrefs.SetFloat(UI_VOL_PREF, value);
+    }
+
+    public void OnEditLeaderboardName(string value)
+    {
+        Leaderboard.username = value;
+        PlayerPrefs.SetString(LEADERBOARD_NAME_PREF, value);
     }
 
     private void SetVolumeSliders()
