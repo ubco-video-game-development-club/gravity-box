@@ -46,7 +46,7 @@ public class ScoreSystem : MonoBehaviour
 
     public void SaveHighscoreToLeaderboard()
     {
-        StartCoroutine(Leaderboard.SetUserScore(Leaderboard.username, highScore));
+        StartCoroutine(Leaderboard.SetUserScore(Leaderboard.username, score));
     }
 
     public void AddScoreChangedListener(UnityAction<int> call) 
