@@ -6,14 +6,28 @@ using System.Text;
 
 public class Leaderboard : MonoBehaviour
 {
+    [System.Serializable]
+    public struct UserScore 
+    {
+        public string username;
+        public int score;
+    }
+
+    [System.Serializable]
+    public struct UserScores
+    {
+        public UserScore[] array;
+    }
+
     private const string USER_AGENT = "Gravity Box Client";
     private const string API_END_POINT = "https://ossified-organized-thorn.glitch.me";
     private const string API_KEY = "glitch-leaderboard-test";
 
+    [SerializeField] private TMPro.TextMeshProUGUI text;
+
     void OnEnable()
     {
         StartCoroutine(GetLeaderboard());
-        StartCoroutine(SetUserScore("Kurtis", 1000));
     }
 
     private IEnumerator GetLeaderboard()
@@ -29,9 +43,26 @@ public class Leaderboard : MonoBehaviour
                 Debug.LogError(request.error);
             } else 
             {
-                Debug.Log(request.downloadHandler.text);
+                string json = "{ \"array\": " + request.downloadHandler.text + "}";
+                UserScores scores = JsonUtility.FromJson<UserScores>(json);
+                DisplayScores(scores.array);
             }
         }
+    }
+
+    private void DisplayScores(UserScore[] scores)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach(UserScore score in scores)
+        {
+            sb.Append(score.username);
+            sb.Append("\t");
+            sb.Append(score.score);
+            sb.Append("\n");
+        }
+
+        string leaderboardText = sb.ToString().Trim();
+        text.SetText(leaderboardText);
     }
 
     public static IEnumerator SetUserScore(string username, int score)
