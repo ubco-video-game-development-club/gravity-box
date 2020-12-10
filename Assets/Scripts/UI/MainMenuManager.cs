@@ -34,7 +34,8 @@ public class MainMenuManager : MonoBehaviour
         highscoreText.text = $"High Score: {highScore}";
 
         SetVolumeSliders();
-        leaderboardNameInput.text = PlayerPrefs.GetString(LEADERBOARD_NAME_PREF);
+        Leaderboard.username = PlayerPrefs.GetString(LEADERBOARD_NAME_PREF);
+        leaderboardNameInput.text = Leaderboard.username;
     }
 
     public void OnPlayButtonClicked()
