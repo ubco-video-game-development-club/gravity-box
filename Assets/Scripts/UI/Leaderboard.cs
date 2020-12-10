@@ -23,7 +23,7 @@ public class Leaderboard : MonoBehaviour
     private const string API_END_POINT = "https://ossified-organized-thorn.glitch.me";
     private const string API_KEY = "glitch-leaderboard-VUTLNNfRxcq9fo8x";
 
-    public static string username = "";
+    public static string username = "Guest";
 
     [SerializeField] private TMPro.TextMeshProUGUI text;
 
