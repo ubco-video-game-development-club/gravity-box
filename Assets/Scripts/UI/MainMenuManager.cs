@@ -34,8 +34,7 @@ public class MainMenuManager : MonoBehaviour
         highscoreText.text = $"High Score: {highScore}";
 
         SetVolumeSliders();
-        Leaderboard.username = PlayerPrefs.GetString(LEADERBOARD_NAME_PREF);
-        leaderboardNameInput.text = Leaderboard.username;
+        SetLeaderboardName();
     }
 
     public void OnPlayButtonClicked()
@@ -72,6 +71,20 @@ public class MainMenuManager : MonoBehaviour
     {
         Leaderboard.username = value;
         PlayerPrefs.SetString(LEADERBOARD_NAME_PREF, value);
+    }
+
+    private void SetLeaderboardName()
+    {
+        string username = PlayerPrefs.GetString(LEADERBOARD_NAME_PREF);
+        if(string.IsNullOrEmpty(username)) 
+        {
+            Leaderboard.username = "Guest";
+        } else 
+        {
+            Leaderboard.username = username;
+        }
+
+        leaderboardNameInput.text = Leaderboard.username;
     }
 
     private void SetVolumeSliders()
