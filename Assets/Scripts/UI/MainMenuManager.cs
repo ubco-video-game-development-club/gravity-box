@@ -19,7 +19,6 @@ public class MainMenuManager : MonoBehaviour
 
     private const string LEADERBOARD_NAME_PREF = "player.username";
 
-    [SerializeField] private TMPro.TextMeshProUGUI highscoreText;
     [SerializeField] private string playScene = "Scenes/Game";
     [SerializeField] private AudioMixer masterMixer;
     [SerializeField] private Slider masterVolumeSlider;
@@ -30,9 +29,6 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-        int highScore = PlayerPrefs.GetInt(ScoreSystem.HIGH_SCORE_PREF);
-        // highscoreText.text = $"High Score: {highScore}";
-        // TODO: implement rank + score for current user
 
         SetVolumeSliders();
         SetLeaderboardName();

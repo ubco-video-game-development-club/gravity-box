@@ -71,23 +71,25 @@ public class Leaderboard : MonoBehaviour
     private void DisplayScores(Rankings rankings)
     {
         UserScore[] top10 = rankings.top10;
-        for(int i = 0; i < top10.Length; i++)
+        for (int i = 0; i < top10.Length; i++)
         {
-            entries[i].DisplayScore(top10[i].username, top10[i].score);
+            entries[i].DisplayScore(i + 1, top10[i].username, top10[i].score);
         }
 
-        if(rankings.ranking < 0)
+        if (rankings.ranking < 0)
         {
             personalEntry.gameObject.SetActive(false); //This works because the scene will be reloaded if you get a high score
-        } else 
+        }
+        else
         {
-            personalEntry.DisplayScore(username, rankings.ranking);
+            int highScore = PlayerPrefs.GetInt(ScoreSystem.HIGH_SCORE_PREF);
+            personalEntry.DisplayScore(rankings.ranking + 1, username, highScore);
         }
     }
 
     public static IEnumerator SetUserScore(string username, int score)
     {
-        if(string.IsNullOrEmpty(username))
+        if (string.IsNullOrEmpty(username))
         {
             Debug.LogWarning("Empty username passed to SetUserScore.");
             yield break;

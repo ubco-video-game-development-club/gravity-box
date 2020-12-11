@@ -23,8 +23,9 @@ public class LeaderboardEntry : MonoBehaviour
         scoreText.text = "-";
     }
 
-    public void DisplayScore(string username, int score)
+    public void DisplayScore(int rank, string username, int score)
     {
+        rankText.text = rank.ToString() + ".";
         usernameText.text = username;
         scoreText.text = score.ToString();
     }
