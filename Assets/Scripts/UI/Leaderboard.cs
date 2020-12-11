@@ -7,7 +7,7 @@ using System.Text;
 public class Leaderboard : MonoBehaviour
 {
     [System.Serializable]
-    public struct UserScore 
+    public struct UserScore
     {
         public string username;
         public int score;
@@ -22,10 +22,23 @@ public class Leaderboard : MonoBehaviour
     private const string USER_AGENT = "Gravity Box Client";
     private const string API_END_POINT = "https://ossified-organized-thorn.glitch.me";
     private const string API_KEY = "glitch-leaderboard-VUTLNNfRxcq9fo8x";
+    private const int NUM_ENTRIES = 10;
 
     public static string username = "Guest";
 
-    [SerializeField] private TMPro.TextMeshProUGUI text;
+    [SerializeField] private LeaderboardEntry entryPrefab;
+
+    private LeaderboardEntry[] entries;
+
+    void Awake()
+    {
+        entries = new LeaderboardEntry[NUM_ENTRIES];
+        for (int i = 0; i < NUM_ENTRIES; i++)
+        {
+            entries[i] = Instantiate(entryPrefab, transform);
+            entries[i].Initialize(i);
+        }
+    }
 
     void OnEnable()
     {
@@ -34,16 +47,17 @@ public class Leaderboard : MonoBehaviour
 
     private IEnumerator GetLeaderboard()
     {
-        using(UnityWebRequest request = UnityWebRequest.Get(API_END_POINT))
+        using (UnityWebRequest request = UnityWebRequest.Get(API_END_POINT))
         {
             request.SetRequestHeader("User-Agent", USER_AGENT);
 
             yield return request.SendWebRequest();
 
-            if(request.isHttpError || request.isNetworkError)
+            if (request.isHttpError || request.isNetworkError)
             {
                 Debug.LogError(request.error);
-            } else 
+            }
+            else
             {
                 string json = "{ \"array\": " + request.downloadHandler.text + "}";
                 UserScores scores = JsonUtility.FromJson<UserScores>(json);
@@ -54,17 +68,10 @@ public class Leaderboard : MonoBehaviour
 
     private void DisplayScores(UserScore[] scores)
     {
-        StringBuilder sb = new StringBuilder();
-        foreach(UserScore score in scores)
+        for (int i = 0; i < scores.Length; i++)
         {
-            sb.Append(score.username);
-            sb.Append("\t");
-            sb.Append(score.score);
-            sb.Append("\n");
+            entries[i].DisplayScore(scores[i].username, scores[i].score);
         }
-
-        string leaderboardText = sb.ToString().Trim();
-        text.SetText(leaderboardText);
     }
 
     public static IEnumerator SetUserScore(string username, int score)
@@ -78,7 +85,7 @@ public class Leaderboard : MonoBehaviour
         sb.Append("}");
         string json = sb.ToString();
 
-        using(UnityWebRequest request = new UnityWebRequest())
+        using (UnityWebRequest request = new UnityWebRequest())
         {
             request.url = $"{API_END_POINT}/{username}";
             request.uploadHandler = new UploadHandlerRaw(Encoding.ASCII.GetBytes(json));
@@ -89,10 +96,11 @@ public class Leaderboard : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            if(request.isHttpError || request.isNetworkError)
+            if (request.isHttpError || request.isNetworkError)
             {
                 Debug.LogError(request.error);
-            } else
+            }
+            else
             {
                 Debug.Log(request.downloadHandler.text);
             }

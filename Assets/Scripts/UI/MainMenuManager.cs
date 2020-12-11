@@ -31,7 +31,8 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         int highScore = PlayerPrefs.GetInt(ScoreSystem.HIGH_SCORE_PREF);
-        highscoreText.text = $"High Score: {highScore}";
+        // highscoreText.text = $"High Score: {highScore}";
+        // TODO: implement rank + score for current user
 
         SetVolumeSliders();
         SetLeaderboardName();
