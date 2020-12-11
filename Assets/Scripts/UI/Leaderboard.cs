@@ -83,7 +83,7 @@ public class Leaderboard : MonoBehaviour
         }
         else
         {
-            if (rank < rankings.top10.Length)
+            if (rank < top10.Length)
             {
                 personalEntry.DisplayScore(rank + 1, username, top10[rank].score);
             }
