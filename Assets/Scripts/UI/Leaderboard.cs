@@ -76,14 +76,21 @@ public class Leaderboard : MonoBehaviour
             entries[i].DisplayScore(i + 1, top10[i].username, top10[i].score);
         }
 
-        if (rankings.ranking < 0)
+        int rank = rankings.ranking;
+        if (rank < 0)
         {
             personalEntry.gameObject.SetActive(false); //This works because the scene will be reloaded if you get a high score
         }
         else
         {
-            int highScore = PlayerPrefs.GetInt(ScoreSystem.HIGH_SCORE_PREF);
-            personalEntry.DisplayScore(rankings.ranking + 1, username, highScore);
+            if (rank < rankings.top10.Length)
+            {
+                personalEntry.DisplayScore(rank + 1, username, top10[rank].score);
+            }
+            else
+            {
+                personalEntry.DisplayScore(rank + 1, username, PlayerPrefs.GetInt(ScoreSystem.HIGH_SCORE_PREF));
+            }
         }
     }
 

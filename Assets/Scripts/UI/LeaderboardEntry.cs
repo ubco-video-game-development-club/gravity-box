@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LeaderboardEntry : MonoBehaviour
 {
+    public TMPro.TextMeshProUGUI RankText { get { return rankText; } }
+
     [SerializeField] private TMPro.TextMeshProUGUI rankText;
     [SerializeField] private TMPro.TextMeshProUGUI usernameText;
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
