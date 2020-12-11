@@ -14,9 +14,10 @@ public class Leaderboard : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct UserScores
+    public struct Rankings
     {
-        public UserScore[] array;
+        public UserScore[] top10;
+        public int ranking;
     }
 
     private const string USER_AGENT = "Gravity Box Client";
@@ -27,6 +28,7 @@ public class Leaderboard : MonoBehaviour
     public static string username = "Guest";
 
     [SerializeField] private LeaderboardEntry entryPrefab;
+    [SerializeField] private LeaderboardEntry personalEntry;
 
     private LeaderboardEntry[] entries;
 
@@ -42,12 +44,12 @@ public class Leaderboard : MonoBehaviour
 
     void OnEnable()
     {
-        StartCoroutine(GetLeaderboard());
+        StartCoroutine(GetRankings());
     }
 
-    private IEnumerator GetLeaderboard()
+    private IEnumerator GetRankings()
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(API_END_POINT))
+        using (UnityWebRequest request = UnityWebRequest.Get(API_END_POINT + $"/ranks/{username}"))
         {
             request.SetRequestHeader("User-Agent", USER_AGENT);
 
@@ -59,23 +61,38 @@ public class Leaderboard : MonoBehaviour
             }
             else
             {
-                string json = "{ \"array\": " + request.downloadHandler.text + "}";
-                UserScores scores = JsonUtility.FromJson<UserScores>(json);
-                DisplayScores(scores.array);
+                string json = request.downloadHandler.text;
+                Rankings rankings = JsonUtility.FromJson<Rankings>(json);
+                DisplayScores(rankings);
             }
         }
     }
 
-    private void DisplayScores(UserScore[] scores)
+    private void DisplayScores(Rankings rankings)
     {
-        for (int i = 0; i < scores.Length; i++)
+        UserScore[] top10 = rankings.top10;
+        for(int i = 0; i < top10.Length; i++)
         {
-            entries[i].DisplayScore(scores[i].username, scores[i].score);
+            entries[i].DisplayScore(top10[i].username, top10[i].score);
+        }
+
+        if(rankings.ranking < 0)
+        {
+            personalEntry.gameObject.SetActive(false); //This works because the scene will be reloaded if you get a high score
+        } else 
+        {
+            personalEntry.DisplayScore(username, rankings.ranking);
         }
     }
 
     public static IEnumerator SetUserScore(string username, int score)
     {
+        if(string.IsNullOrEmpty(username))
+        {
+            Debug.LogWarning("Empty username passed to SetUserScore.");
+            yield break;
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.Append("{ \"key\": ");
         sb.Append("\"");
