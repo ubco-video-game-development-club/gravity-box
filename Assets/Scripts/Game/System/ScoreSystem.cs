@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class ScoreSystem : MonoBehaviour
 {
-    public const string HIGH_SCORE_PREF = "player.highscore";
+    private const string HIGH_SCORE_PREF = "player.highscore";
 
     [System.Serializable] public class OnScoreChangedEvent : UnityEvent<int> { }
 
@@ -17,7 +17,7 @@ public class ScoreSystem : MonoBehaviour
 
     void Awake()
     {
-        highScore = PlayerPrefs.GetInt(HIGH_SCORE_PREF);
+        highScore = PlayerPrefs.GetInt(GetHighScorePref(Leaderboard.username));
     }
 
     public void AddScore(int amount) 
@@ -37,7 +37,7 @@ public class ScoreSystem : MonoBehaviour
             if (!achievedHighScore) onNewHighscore.Invoke();
             
             achievedHighScore = true;
-            PlayerPrefs.SetInt(HIGH_SCORE_PREF, score);
+            PlayerPrefs.SetInt(GetHighScorePref(Leaderboard.username), score);
             highScore = score;
         }
 
@@ -57,5 +57,10 @@ public class ScoreSystem : MonoBehaviour
     public void RemoveScoreChangedListener(UnityAction<int> call) 
     {
         onScoreChanged.RemoveListener(call);
+    }
+
+    public static string GetHighScorePref(string username)
+    {
+        return $"{HIGH_SCORE_PREF}.{username}";
     }
 }
