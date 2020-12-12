@@ -89,7 +89,7 @@ public class Leaderboard : MonoBehaviour
             }
             else
             {
-                personalEntry.DisplayScore(rank + 1, username, PlayerPrefs.GetInt(ScoreSystem.HIGH_SCORE_PREF));
+                personalEntry.DisplayScore(rank + 1, username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(username)));
             }
         }
     }
