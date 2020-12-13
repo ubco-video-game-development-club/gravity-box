@@ -7,22 +7,30 @@ using System.Text;
 public class Leaderboard : MonoBehaviour
 {
     [System.Serializable]
-    public struct UserScore
+    private struct User
     {
         public string username;
         public int score;
     }
 
     [System.Serializable]
-    public struct Rankings
+    private struct UserArray
     {
-        public UserScore[] top10;
-        public int ranking;
+        public User[] array;
     }
 
+    [System.Serializable]
+    private struct PostInfo
+    {
+        public string key;
+        public string username;
+        public int score;
+    }
+
+    private const string UID_PREF = "user.uid";
     private const string USER_AGENT = "Gravity Box Client";
-    private const string API_END_POINT = "https://ossified-organized-thorn.glitch.me";
-    private const string API_KEY = "glitch-leaderboard-VUTLNNfRxcq9fo8x";
+    private const string API_END_POINT = "https://pear-periwinkle-cilantro.glitch.me";
+    private const string API_KEY = "test";
     private const int NUM_ENTRIES = 10;
 
     public static string username = "Guest";
@@ -44,12 +52,12 @@ public class Leaderboard : MonoBehaviour
 
     void OnEnable()
     {
-        StartCoroutine(GetRankings());
+        StartCoroutine(GetLeaderboard());
     }
 
-    private IEnumerator GetRankings()
+    private IEnumerator GetLeaderboard()
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(API_END_POINT + $"/ranks/{username}"))
+        using (UnityWebRequest request = UnityWebRequest.Get($"{API_END_POINT}/top/{NUM_ENTRIES}"))
         {
             request.SetRequestHeader("User-Agent", USER_AGENT);
 
@@ -62,35 +70,53 @@ public class Leaderboard : MonoBehaviour
             else
             {
                 string json = request.downloadHandler.text;
-                Rankings rankings = JsonUtility.FromJson<Rankings>(json);
-                DisplayScores(rankings);
+                json = "{ \"array\": " + json + "}";
+                UserArray topScores = JsonUtility.FromJson<UserArray>(json);
+                DisplayScores(topScores.array);
+            }
+        }
+
+        using(UnityWebRequest request = UnityWebRequest.Get($"{API_END_POINT}/rank/{GetOrCreateUID()}"))
+        {
+            request.SetRequestHeader("User-Agent", USER_AGENT);
+
+            yield return request.SendWebRequest();
+
+            if(request.isHttpError || request.isNetworkError)
+            {
+                Debug.LogError(request.error);
+            } else
+            {
+                string response = request.downloadHandler.text;
+                if(int.TryParse(response, out int rank))
+                {
+                    DisplayRank(rank);
+                } else
+                {
+                    Debug.LogError($"Invalid response: {response}");
+                    DisplayRank(-1);
+                }
             }
         }
     }
 
-    private void DisplayScores(Rankings rankings)
+    private void DisplayScores(User[] topScores)
     {
-        UserScore[] top10 = rankings.top10;
-        for (int i = 0; i < top10.Length; i++)
+        for (int i = 0; i < topScores.Length; i++)
         {
-            entries[i].DisplayScore(i + 1, top10[i].username, top10[i].score);
+            entries[i].DisplayScore(i + 1, topScores[i].username, topScores[i].score);
         }
+    }
 
-        int rank = rankings.ranking;
+    private void DisplayRank(int rank)
+    {
         if (rank < 0)
         {
             personalEntry.gameObject.SetActive(false); //This works because the scene will be reloaded if you get a high score
         }
         else
         {
-            if (rank < top10.Length)
-            {
-                personalEntry.DisplayScore(rank + 1, username, top10[rank].score);
-            }
-            else
-            {
-                personalEntry.DisplayScore(rank + 1, username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(username)));
-            }
+            personalEntry.DisplayScore(rank + 1, username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(username)));
         }
     }
 
@@ -102,18 +128,18 @@ public class Leaderboard : MonoBehaviour
             yield break;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.Append("{ \"key\": ");
-        sb.Append("\"");
-        sb.Append(API_KEY);
-        sb.Append("\", \"score\": ");
-        sb.Append(score);
-        sb.Append("}");
-        string json = sb.ToString();
+        PostInfo post = new PostInfo() 
+        {
+            key = API_KEY,
+            username = username,
+            score = score
+        };
+
+        string json = JsonUtility.ToJson(post);
 
         using (UnityWebRequest request = new UnityWebRequest())
         {
-            request.url = $"{API_END_POINT}/{username}";
+            request.url = $"{API_END_POINT}/score/{GetOrCreateUID()}";
             request.uploadHandler = new UploadHandlerRaw(Encoding.ASCII.GetBytes(json));
             request.downloadHandler = new DownloadHandlerBuffer();
             request.method = UnityWebRequest.kHttpVerbPOST;
@@ -131,5 +157,17 @@ public class Leaderboard : MonoBehaviour
                 Debug.Log(request.downloadHandler.text);
             }
         }
+    }
+
+    public static string GetOrCreateUID()
+    {
+        string uid = PlayerPrefs.GetString(UID_PREF);
+        if(uid == "")
+        {
+            uid = System.Guid.NewGuid().ToString();
+            PlayerPrefs.SetString(UID_PREF, uid);
+        }
+
+        return uid;
     }
 }
