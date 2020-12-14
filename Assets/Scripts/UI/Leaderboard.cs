@@ -27,6 +27,13 @@ public class Leaderboard : MonoBehaviour
         public int score;
     }
 
+	[System.Serializable]
+	private struct RankInfo
+	{
+		public int rank;
+		public string username;
+	}
+
     private const string UID_PREF = "user.uid";
     private const string USER_AGENT = "Gravity Box Client";
     private const string API_END_POINT = "https://pear-periwinkle-cilantro.glitch.me";
@@ -88,14 +95,8 @@ public class Leaderboard : MonoBehaviour
             } else
             {
                 string response = request.downloadHandler.text;
-                if(int.TryParse(response, out int rank))
-                {
-                    DisplayRank(rank);
-                } else
-                {
-                    Debug.LogError($"Invalid response: {response}");
-                    DisplayRank(-1);
-                }
+				RankInfo rankInfo = JsonUtility.FromJson<RankInfo>(response);
+                DisplayRank(rankInfo);
             }
         }
     }
@@ -108,15 +109,15 @@ public class Leaderboard : MonoBehaviour
         }
     }
 
-    private void DisplayRank(int rank)
+    private void DisplayRank(RankInfo rankInfo)
     {
-        if (rank < 0)
+        if (rankInfo.rank < 0)
         {
             personalEntry.gameObject.SetActive(false); //This works because the scene will be reloaded if you get a high score
         }
         else
         {
-            personalEntry.DisplayScore(rank + 1, username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(username)));
+            personalEntry.DisplayScore(rankInfo.rank + 1, rankInfo.username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(rankInfo.username)));
         }
     }
 
