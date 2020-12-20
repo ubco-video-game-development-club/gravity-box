@@ -106,8 +106,7 @@ public class Leaderboard : MonoBehaviour
     {
         for (int i = 0; i < topScores.Length; i++)
         {
-            entries[i].DisplayScore(i + 1, topScores[i].username, topScores[i].score);
-			Debug.Log(topScores[i].owned);
+            entries[i].DisplayScore(i + 1, topScores[i].username, topScores[i].score, topScores[i].owned);
         }
     }
 
@@ -119,7 +118,7 @@ public class Leaderboard : MonoBehaviour
         }
         else
         {
-            personalEntry.DisplayScore(rankInfo.rank + 1, rankInfo.username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(rankInfo.username)));
+            personalEntry.DisplayScore(rankInfo.rank + 1, rankInfo.username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(rankInfo.username)), true);
         }
     }
 

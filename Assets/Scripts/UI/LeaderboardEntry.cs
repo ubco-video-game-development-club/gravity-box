@@ -25,10 +25,19 @@ public class LeaderboardEntry : MonoBehaviour
         scoreText.text = "-";
     }
 
-    public void DisplayScore(int rank, string username, int score)
+    public void DisplayScore(int rank, string username, int score, bool owned)
     {
-        rankText.text = rank.ToString() + ".";
-        usernameText.text = username;
-        scoreText.text = score.ToString();
+		if(owned)
+		{
+			usernameText.text = $"<b>{username}</b>";
+			rankText.text = $"<b>{rank}.</b>";
+        	scoreText.text = $"<b>{score}</b>";
+		} else
+		{
+			usernameText.text = username;
+			rankText.text = rank.ToString() + ".";
+        	scoreText.text = score.ToString();
+		}
+
     }
 }
