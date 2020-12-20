@@ -105,7 +105,7 @@ public class Leaderboard : MonoBehaviour
 
     private void DisplayScores(User[] topScores)
     {
-        for (int i = 0; i < topScores.Length; i++)
+        for (int i = 0; i < NUM_ENTRIES; i++)
         {
             entries[i].DisplayScore(i + 1, topScores[i].username, topScores[i].score, topScores[i].owned);
         }
