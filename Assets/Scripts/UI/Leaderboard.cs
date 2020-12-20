@@ -33,6 +33,7 @@ public class Leaderboard : MonoBehaviour
 	{
 		public int rank;
 		public string username;
+		public int score;
 	}
 
     private const string UID_PREF = "user.uid";
@@ -118,7 +119,7 @@ public class Leaderboard : MonoBehaviour
         }
         else
         {
-            personalEntry.DisplayScore(rankInfo.rank + 1, rankInfo.username, PlayerPrefs.GetInt(ScoreSystem.GetHighScorePref(rankInfo.username)), true);
+            personalEntry.DisplayScore(rankInfo.rank + 1, rankInfo.username, rankInfo.score, true);
         }
     }
 
