@@ -11,6 +11,7 @@ public class Leaderboard : MonoBehaviour
     {
         public string username;
         public int score;
+		public bool owned;
     }
 
     [System.Serializable]
@@ -64,7 +65,7 @@ public class Leaderboard : MonoBehaviour
 
     private IEnumerator GetLeaderboard()
     {
-        using (UnityWebRequest request = UnityWebRequest.Get($"{API_END_POINT}/top/{NUM_ENTRIES}"))
+        using (UnityWebRequest request = UnityWebRequest.Get($"{API_END_POINT}/top/{NUM_ENTRIES}?{GetOrCreateUID()}"))
         {
             request.SetRequestHeader("User-Agent", USER_AGENT);
 
@@ -106,6 +107,7 @@ public class Leaderboard : MonoBehaviour
         for (int i = 0; i < topScores.Length; i++)
         {
             entries[i].DisplayScore(i + 1, topScores[i].username, topScores[i].score);
+			Debug.Log(topScores[i].owned);
         }
     }
 
