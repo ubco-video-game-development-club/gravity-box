@@ -39,7 +39,7 @@ public class Leaderboard : MonoBehaviour
     private const string UID_PREF = "user.uid";
     private const string USER_AGENT = "Gravity Box Client";
     private const string API_END_POINT = "https://pear-periwinkle-cilantro.glitch.me";
-    private const string API_KEY = "test";
+    private const string API_KEY = "qW5ZbuQ63tRL22mom3aDOkBN5X1HHJiD";
     private const int NUM_ENTRIES = 10;
 
     public static string username = "Guest";
